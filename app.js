@@ -14,9 +14,9 @@ let database = null;
 const initializeDbAndServer = async () => {
   try {
     database = await open({ filename: databasePath, driver: sqlite3.Database,});
-    app.listen(3008, () => 
+    app.listen(3008, () => {
       console.log("Server Running at http://localhost:3008/");
-    );
+    });
   } catch (error) {
     console.log(`DB Error:${error.message}`);
     process.exit(1);
@@ -59,7 +59,7 @@ app.post("/players/", async (request, response) => {
     INSERT INTO cricket_team (player_name, jersey_number, role)
     VALUES ('${playerName}',${jerseyNumber},'${role}');`;
   const player = await database.run(postPlayerQuery);
-  response.send({"Player Added to Team"});
+  response.send("Player Added to Team");
 });
 
 
@@ -72,7 +72,7 @@ app.put("/players/:playerId/", async (request, response) => {
                       role = '${role}' 
     WHERE player_id = ${playerId};`;
   await database.run(updatePlayerQuery);
-  response.send({"Player Details Updated"});
+  response.send("Player Details Updated");
 });
 
 
